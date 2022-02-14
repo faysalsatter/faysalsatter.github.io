@@ -6,7 +6,7 @@ category: Python
 tags: [python, pattern, objects, singletons, interns]
 ---
 
-In the [previous post](/design_pattern), I give a short journey how singleton become an important part in software designing. Here, we will see how singleton actually behave in python using some simple code examples. Short recap: Singletons are objects that exist one and only place in memory throughout the lifetime of a program. And interning is the process of making an object a singleton. When python starts, it automatically interns some objects. Also, we can make manually intern some objects as singletons.
+In the [previous post]({% post_url 2021-08-07-design_pattern %}), I give a short journey how singleton become an important part in software designing. Here, we will see how singleton actually behave in python using some simple code examples. Short recap: Singletons are objects that exist one and only place in memory throughout the lifetime of a program. And interning is the process of making an object a singleton. When python starts, it automatically interns some objects. Also, we can make manually intern some objects as singletons.
 
 Note: These examples run in Cpython (v 3.8.11) Jupiter notebook environment. Since singletons and interning works differently in different python version, environment or implementation (Jython, IronPython, PyPy), it might work differently anywhere else. For example, integer singletons are disabled in PyPy by default. If we want such features, we have to enable it first.
 

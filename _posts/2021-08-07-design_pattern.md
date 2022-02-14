@@ -22,6 +22,6 @@ We can create objects by simply calling their constructor. But sometimes we migh
 
 Singleton is one type of creational design patterns that ensures one object exist only once and at one point in memory for the lifetime of the program. It provides a single point of access to it. Every time a singleton object is called, it returns the exact same object from the memory. It will save time and memory costs.
 
-We will see how singletons (and interning) work in Jupyter python notebook in the  [following post](/singletons_interning).
+We will see how singletons (and interning) work in Jupyter python notebook in the  [following post]({% post_url 2021-08-14-singletons_interning %}).
 
 
