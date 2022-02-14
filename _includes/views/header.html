@@ -40,7 +40,10 @@
               {%- endif -%}
             {%- endfor -%}
 
-            {%- assign name = 'translate_langs' -%}
+            <!-- Remove google translate option from header. 
+              Uncomment the followig block to activate translation -->
+
+            <!-- {%- assign name = 'translate_langs' -%}
             {%- include functions.html func='get_value' -%}
             {%- assign translate_langs = return -%}
             {%- if translate_langs.size > 0 -%}
@@ -50,7 +53,7 @@
               <span class="page-link">
                   {%- include extensions/google-translate.html -%}
               </span>
-            {%- endif -%}
+            {%- endif -%} -->
           </div>
         </nav>
       {%- endif -%}
