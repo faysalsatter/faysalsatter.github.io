@@ -17,7 +17,7 @@ html {
 
       &.site-header {
         .site-brand-inner, .page-link {
-          color: #fff;
+          color: rgb(0, 0, 0);  /*-- Home header font color */
           transition: 0.1s color;
         }
 
@@ -604,6 +604,7 @@ html {
     color: $banner-text-color;
     padding: 10px 5px;
     text-shadow: 1px 1px 2px #33333355;
+    color: rgb(143, 213, 235);
 
     & > *:first-child {
       margin: 0;

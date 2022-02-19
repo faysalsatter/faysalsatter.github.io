@@ -3,7 +3,7 @@ layout: post
 title: "Singletons and interning"
 subtitle: "This is about how python store certain numbers and strings in its memory."
 category: Python
-tags: [python, pattern, objects, singletons, interns]
+tags: [python, objects, basics]
 ---
 
 In the [previous post]({% post_url 2021-08-07-design_pattern %}), I give a short journey how singleton become an important part in software designing. Here, we will see how singleton actually behave in python using some simple code examples. Short recap: Singletons are objects that exist one and only place in memory throughout the lifetime of a program. And interning is the process of making an object a singleton. When python starts, it automatically interns some objects. Also, we can make manually intern some objects as singletons.

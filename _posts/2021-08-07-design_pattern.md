@@ -3,7 +3,7 @@ layout: post
 title: "Design Pattern"
 subtitle: "This is about how python store certain numbers and strings in its memory."
 category: Python
-tags: [python, pattern, objects, singletons, interns]
+tags: [python, objects, basics]
 ---
 
 In software engineering, the term "Design Pattern" describes an established solution to a commonly occurring problem in software design. These patterns evolve over the time by adapting the experienced software developers best practices. In general, a design pattern describes a problem, a template of how to solve it in different situations, and the consequences it entails.
