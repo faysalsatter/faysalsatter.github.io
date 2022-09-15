@@ -439,7 +439,7 @@ Notice that we didn't use `ORDER BY`. So, entire rows are selected as frame. Hen
 
 ## Built-in functions
 ### FIRST_VALUE
-It will return the first record from each partition. For example, We want to find the first date of transaction for each `store`. Window function returns output for each row. We need to use `DISTINCT` to get only one value for each store.
+It will return the first record from each partition. For example, say, we want to find the first date of transaction for each `store`. This window function will return output for each row. We need to use `DISTINCT` to get only one value for each store.
 ```sql
 SELECT DISTINCT store,
                 FIRST_VALUE(sales_date)
@@ -493,7 +493,7 @@ Water   7.0
 
 
 
-## Analytics functions
+## Ranking functions
 ### ROW_NUMBER
 This window function assigns a unique increment number to every record specified within a window. 
 
@@ -559,7 +559,94 @@ id      sales_date      sales   rank
 302     2022-01-03      7.0     3
 303     2022-01-03      2.0     4
 ```
-Now the duplicate rows have the row number.
+Now the duplicate rows have the row number. Also note that, there is a gap in rank. After two 2's, fourth row has rank 4.
+
+### DENSE_RANK
+With dense_rank window function, there is no gap in rank numbers, even if there are duplicated values (duplicated values get same rank). Comparing to the previous example, with dense_rank, now fourth row has rank 3.
+
+```sql
+SELECT id,
+       sales_date,
+       sales,
+       DENSE_RANK()
+         OVER (
+           PARTITION BY sales_date
+           ORDER BY id ) AS rank
+FROM   daily_sales; 
+```
+```text
+OK
+id      sales_date      sales   dense_rank
+101     2022-01-01      2.0     1
+102     2022-01-01      3.0     2
+102     2022-01-01      3.0     2
+103     2022-01-01      2.0     3
+201     2022-01-01      3.0     4
+202     2022-01-01      5.0     5
+104     2022-01-02      6.0     1
+203     2022-01-03      5.0     1
+301     2022-01-03      3.0     2
+302     2022-01-03      7.0     3
+303     2022-01-03      2.0     4
+```
+
+### CUME_DIST
+It shows the relative rank of the current row within a window partition. It calculates as (number of rows preceding or peer with current row) / (total rows in the window partition). In the following example, for `sales_date`=2022-01-01, we have 6 rows. For first row, `cume_dist` is 1/6. Second and third rows have same id 102 (total 2 values). So, `cume_dist` for second and third rows are (1 + 2) / 6 = 0.5. 
+```sql
+SELECT id,
+       sales_date,
+       sales,
+       CUME_DIST()
+         OVER (
+           PARTITION BY sales_date
+           ORDER BY id ) AS cume_dist
+FROM   daily_sales; 
+```
+```text
+OK
+id      sales_date      sales   cume_dist
+101     2022-01-01      2.0     0.16666666666666666
+102     2022-01-01      3.0     0.5
+102     2022-01-01      3.0     0.5
+103     2022-01-01      2.0     0.6666666666666666
+201     2022-01-01      3.0     0.8333333333333334
+202     2022-01-01      5.0     1.0
+104     2022-01-02      6.0     1.0
+203     2022-01-03      5.0     0.25
+301     2022-01-03      3.0     0.5
+302     2022-01-03      7.0     0.75
+303     2022-01-03      2.0     1.0
+```
+
+### PERCENT_RANK
+It returns the percent rank of a value relative to a group of values. It calculates as:
+(current rank – 1 ) / (total number of rows – 1).
+
+```sql
+SELECT id,
+       sales_date,
+       sales,
+       PERCENT_RANK()
+         OVER (
+           PARTITION BY sales_date
+           ORDER BY id ) AS percent_rank
+FROM   daily_sales; 
+```
+```text
+OK
+id      sales_date      sales   percent_rank
+101     2022-01-01      2.0     0.0
+102     2022-01-01      3.0     0.2
+102     2022-01-01      3.0     0.2
+103     2022-01-01      2.0     0.6
+201     2022-01-01      3.0     0.8
+202     2022-01-01      5.0     1.0
+104     2022-01-02      6.0     0.0
+203     2022-01-03      5.0     0.0
+301     2022-01-03      3.0     0.3333333333333333
+302     2022-01-03      7.0     0.6666666666666666
+303     2022-01-03      2.0     1.0
+```
 
 ### NTILE
 This is to calculate what percentile a row falls into. Say, we want to divide the `sales` into four parts. Then with `NTILE` we can see which part an individual entry falls into.
